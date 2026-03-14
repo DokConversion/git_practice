@@ -131,12 +131,16 @@ Regeln:
         return None
 
 
-async def generate_messages_for_yesterdays_webinars():
+async def generate_messages_for_yesterdays_webinars(limit: int = 0):
     """
     Generiert Outreach-Nachrichten fuer alle Webinare von gestern.
+    limit=0 bedeutet kein Limit.
     """
     webinars = get_yesterdays_webinars()
     print(f"Webinare von gestern ohne Outreach: {len(webinars)}")
+    if limit:
+        webinars = webinars[:limit]
+        print(f"  (begrenzt auf {limit} durch Tageslimit)")
 
     for webinar in webinars:
         contact = get_contact_for_ad(webinar["ad_id"])

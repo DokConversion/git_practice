@@ -24,6 +24,7 @@ import os
 from datetime import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import config
 from src.db import init_db, get_connection
 
 
@@ -97,15 +98,35 @@ async def run_full_pipeline(skip_scrape: bool = False):
         from src.find_contact_info import process_ads_without_contacts
         await process_ads_without_contacts()
 
-    # Schritt 4: Nachrichten generieren
-    print_banner("SCHRITT 4: Outreach-Nachrichten generieren")
-    from src.generate_outreach import generate_messages_for_yesterdays_webinars
-    await generate_messages_for_yesterdays_webinars()
+    if config.DRY_RUN:
+        # Dry-Run: Zeige Review-Report statt Nachrichten zu generieren
+        print_banner("SCHRITT 4: Review-Report (DRY RUN)")
+        from src.review_report import get_review_candidates, generate_preview_message, print_report
+        candidates = get_review_candidates()
+        display = candidates[:config.DAILY_OUTREACH_LIMIT + 5]
+        messages = {}
+        for c in display:
+            messages[c["id"]] = await generate_preview_message(c)
+        print_report(display, messages)
+        print("\nDRY RUN aktiv — keine Nachrichten gespeichert.")
+        print("Freigeben mit: python src/review_report.py --approve 1 2 3")
+    else:
+        # Live-Modus: Nachrichten generieren (mit Tageslimit)
+        print_banner("SCHRITT 4: Outreach-Nachrichten generieren")
+        from src.generate_outreach import generate_messages_for_yesterdays_webinars
+        from src.review_report import get_todays_outreach_count
+        already = get_todays_outreach_count()
+        remaining = max(0, config.DAILY_OUTREACH_LIMIT - already)
+        if remaining == 0:
+            print(f"Tageslimit ({config.DAILY_OUTREACH_LIMIT}) bereits erreicht. Keine neuen Nachrichten.")
+        else:
+            print(f"Tageslimit: {config.DAILY_OUTREACH_LIMIT} | Heute bereits: {already} | Verbleibend: {remaining}")
+            await generate_messages_for_yesterdays_webinars(limit=remaining)
 
-    # Schritt 5: Ausstehende Nachrichten anzeigen
-    print_banner("SCHRITT 5: Ausstehende Nachrichten")
-    from src.generate_outreach import show_pending_messages
-    show_pending_messages()
+        # Ausstehende Nachrichten anzeigen
+        print_banner("SCHRITT 5: Ausstehende Nachrichten")
+        from src.generate_outreach import show_pending_messages
+        show_pending_messages()
 
     # Statistik
     show_db_stats()

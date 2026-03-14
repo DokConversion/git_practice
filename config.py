@@ -41,3 +41,7 @@ DB_PATH = os.path.join(os.path.dirname(__file__), "data", "leads.db")
 OUTREACH_STYLE = "dabei-gewesen"  # oder "oeffentliche-referenz"
 FORMALITY = "du"  # "du" oder "sie"
 PRIMARY_CHANNEL = "instagram"  # "instagram", "linkedin", "email"
+
+# --- Dry Run / Limits ---
+DRY_RUN = True  # True = nur Report generieren, nichts senden/speichern
+DAILY_OUTREACH_LIMIT = 10  # Max Nachrichten pro Tag
