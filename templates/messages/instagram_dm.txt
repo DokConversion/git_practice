@@ -1,0 +1,11 @@
+Hey {name},
+
+war gestern bei deinem Webinar zu "{topic}" dabei. {specific_hook}
+
+Eine Sache, die mir aufgefallen ist: Der Raum war ziemlich duenn besetzt im Verhaeltnis zu dem, was du sicher an Anmeldungen hattest, oder?
+
+Das hoere ich mega oft von {target_label} — 500 Anmeldungen, 80 kommen, und du stehst trotzdem 2 Stunden live da und gibst Vollgas.
+
+Ich helfe Leuten wie dir dabei, diese Abhaengigkeit von Live-Terminen komplett loszuwerden — ohne auf Umsatz zu verzichten. Haettest du Bock, da mal kurz drueber zu quatschen?
+
+LG Marc
