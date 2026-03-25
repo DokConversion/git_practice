@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% block title %}Warte! Exklusives Angebot — {{ brand_name }}{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .upsell-hero {
+        background: linear-gradient(135deg, #B71C1C 0%, #E53935 100%);
+        color: #fff;
+        padding: 48px 20px;
+        text-align: center;
+    }
+    .upsell-hero .badge {
+        display: inline-block;
+        background: #FFD54F;
+        color: #333;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin-bottom: 16px;
+    }
+    .upsell-hero h1 {
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
+        font-weight: 800;
+        line-height: 1.25;
+        margin-bottom: 12px;
+    }
+    .upsell-hero p { opacity: 0.9; max-width: 500px; margin: 0 auto; font-size: 1rem; }
+
+    /* Countdown */
+    .countdown-bar {
+        background: #FFD54F;
+        color: #333;
+        text-align: center;
+        padding: 10px 20px;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+    #countdown { font-size: 1.1rem; color: #c62828; }
+
+    /* Course Overview */
+    .modules { padding: 40px 20px; }
+    .modules h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 24px; }
+    .module-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    .module-number {
+        width: 40px;
+        height: 40px;
+        background: var(--primary);
+        color: #fff;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+    .module-content h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+    .module-content p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* Offer Box */
+    .offer-box {
+        background: var(--card);
+        border: 3px solid var(--accent);
+        border-radius: 16px;
+        padding: 32px 24px;
+        max-width: 480px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .offer-box h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .value-stack { margin: 20px 0; text-align: left; }
+    .value-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed var(--border);
+        font-size: 0.9rem;
+    }
+    .value-item .value-price { text-decoration: line-through; color: var(--text-muted); }
+    .value-total {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+    .upsell-price { font-size: 3rem; font-weight: 800; color: var(--accent); line-height: 1; }
+    .upsell-price small { font-size: 1rem; font-weight: 400; color: var(--text-muted); }
+    .no-thanks {
+        display: block;
+        text-align: center;
+        margin-top: 16px;
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- COUNTDOWN -->
+<div class="countdown-bar">
+    ⏰ Dieses Angebot gilt nur jetzt: <span id="countdown">15:00</span>
+</div>
+
+<!-- UPSELL HERO -->
+<section class="upsell-hero">
+    <div class="container">
+        <span class="badge">🎉 Glückwunsch zu deinem Kauf!</span>
+        <h1>{{ upsell_headline|default('Warte — bevor du gehst. Ein einziges Angebot, nur für neue Kunden.') }}</h1>
+        <p>{{ upsell_subheadline|default('Du hast den Ernährungs-Kompass. Jetzt fehlt dir noch das System, das ihn wirklich zum Leben erweckt.') }}</p>
+    </div>
+</section>
+
+<!-- BRIDGE TEXT -->
+<section style="padding: 40px 20px;">
+    <div class="container">
+        <p style="font-size: 1rem; line-height: 1.8; margin-bottom: 20px;">
+            Der UC Ernährungs-Kompass zeigt dir <em>was</em> du essen kannst.<br>
+            Das <strong>UC Selbsthilfe-System</strong> zeigt dir <em>wie</em> du es in deinen Alltag integrierst — in 8 Wochen.
+        </p>
+        <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.7;">
+            Mit Video-Modulen, Live-Übungen und einem strukturierten Plan, den CU-Betroffene entwickelt haben —
+            für CU-Betroffene. Kein Gesundheitskanal, keine Theorie. Nur das, was wirklich hilft.
+        </p>
+    </div>
+</section>
+
+<!-- MODULE ÜBERSICHT -->
+<section class="modules">
+    <div class="container">
+        <h2>Die 8 Module des UC Selbsthilfe-Systems:</h2>
+        {% set default_modules = [
+            ('Woche 1-2', 'Dein Darm-Reset', 'Wie du sanft anfängst — ohne Selbstmartyrologie. Die Basis, auf der alles aufbaut.'),
+            ('Woche 3-4', 'Ernährung im Alltag', 'Konkrete Wochenpläne, Meal-Prep für Berufstätige, Restaurantbesuch mit CU.'),
+            ('Woche 5', 'Stress & Nervensystem', 'Die Gut-Brain-Axis verstehen und täglich beeinflussen — in 10 Minuten.'),
+            ('Woche 6', 'Bewegung & Regeneration', 'Welcher Sport hilft, welcher schadet. CU-gerechte Bewegungsroutinen.'),
+            ('Woche 7', 'Schübe proaktiv managen', 'Frühwarnsignale erkennen, schnell reagieren, Eskalation verhindern.'),
+            ('Woche 8', 'Remission als Lebensstil', 'Wie du das Gelernte langfristig behältst — auch wenn es schwierig wird.'),
+        ] %}
+        {% for period, title, desc in modules|default(default_modules) %}
+        <div class="module-card">
+            <div class="module-number">{{ loop.index }}</div>
+            <div class="module-content">
+                <h4>{{ period }}: {{ title }}</h4>
+                <p>{{ desc }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- ANGEBOT -->
+<section style="padding: 24px 20px 48px;">
+    <div class="container">
+        <div class="offer-box">
+            <h3>🎬 UC Selbsthilfe-System (8-Wochen-Video-Kurs)</h3>
+            <div class="value-stack">
+                <div class="value-item">
+                    <span>6 Video-Module (à 20-30 Min.)</span>
+                    <span class="value-price">€147</span>
+                </div>
+                <div class="value-item">
+                    <span>8-Wochen-Aktionsplan (PDF)</span>
+                    <span class="value-price">€47</span>
+                </div>
+                <div class="value-item">
+                    <span>Schub-Notfallplan</span>
+                    <span class="value-price">€37</span>
+                </div>
+                <div class="value-item">
+                    <span>Bonus: 2 Q&A Recordings</span>
+                    <span class="value-price">€67</span>
+                </div>
+                <div class="value-total">
+                    <span>Gesamtwert</span>
+                    <span>€298</span>
+                </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Heute nur:</p>
+            <div class="upsell-price">
+                €{{ upsell_price|default('247') }}
+                <small> einmalig</small>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 8px 0 20px;">
+                Kein Abo. Sofortiger Zugang. Lebenslang.
+            </p>
+
+            <a href="{{ upsell_checkout_url|default('#') }}" class="btn-primary"
+               onclick="trackUpsell()">
+                Ja! UC Selbsthilfe-System hinzufügen →
+            </a>
+            <div class="trust-bar" style="margin-top: 16px;">
+                <span>30-Tage-Garantie</span>
+                <span>Sicher bezahlen</span>
+                <span>Sofortiger Zugang</span>
+            </div>
+            <a class="no-thanks" href="{{ thank_you_url|default('/vielen-dank') }}">
+                Nein danke, ich möchte das Angebot nicht nutzen.
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Countdown Timer
+    (function() {
+        var seconds = 15 * 60;
+        var el = document.getElementById('countdown');
+        var timer = setInterval(function() {
+            seconds--;
+            if (seconds <= 0) { clearInterval(timer); el.textContent = 'Abgelaufen'; return; }
+            var m = Math.floor(seconds / 60);
+            var s = seconds % 60;
+            el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+        }, 1000);
+    })();
+
+    function trackUpsell() {
+        {% if meta_pixel_id %}
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'AddToCart', {value: {{ upsell_price|default(247) }}, currency: 'EUR'});
+        }
+        {% endif %}
+        {% if ga4_id %}
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'add_to_cart', {value: {{ upsell_price|default(247) }}, currency: 'EUR'});
+        }
+        {% endif %}
+    }
+</script>
+{% endblock %}

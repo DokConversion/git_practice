@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ brand_name }}{% endblock %}</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Google Analytics 4 -->
+    {% if ga4_id %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4_id }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ ga4_id }}');
+    </script>
+    {% endif %}
+
+    <!-- Meta Pixel -->
+    {% if meta_pixel_id %}
+    <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '{{ meta_pixel_id }}');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id={{ meta_pixel_id }}&ev=PageView&noscript=1"/></noscript>
+    {% endif %}
+
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --primary-light: #4CAF50;
+            --accent: #FF6B35;
+            --text: #1a1a1a;
+            --text-muted: #555;
+            --bg: #f9f9f7;
+            --card: #ffffff;
+            --border: #e8e8e0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+        .btn-primary {
+            display: block;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 18px 32px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.1s;
+            line-height: 1.3;
+        }
+        .btn-primary:hover { background: #e55a25; transform: translateY(-1px); }
+        .btn-primary:active { transform: translateY(0); }
+        .trust-bar {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+        .trust-bar span::before { content: "✓ "; color: var(--primary); }
+        .dsgvo-badge {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 8px;
+        }
+        footer {
+            text-align: center;
+            padding: 32px 20px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 48px;
+        }
+        footer a { color: var(--text-muted); text-decoration: underline; }
+        @media (max-width: 480px) {
+            body { font-size: 15px; }
+            .btn-primary { font-size: 1rem; padding: 16px 24px; }
+        }
+    </style>
+    {% block extra_styles %}{% endblock %}
+</head>
+<body>
+
+<!-- DSGVO Cookie Banner -->
+<div id="cookie-banner" style="display:none; position:fixed; bottom:0; left:0; right:0;
+     background:#222; color:#fff; padding:16px 20px; z-index:9999; font-size:0.85rem;">
+    <div style="max-width:800px; margin:0 auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+        <span style="flex:1; min-width:200px;">
+            Wir nutzen Cookies für Analyse und Marketing. Mehr in unserer
+            <a href="/datenschutz" style="color:#4CAF50;">Datenschutzerklärung</a>.
+        </span>
+        <div style="display:flex; gap:8px; flex-shrink:0;">
+            <button onclick="acceptCookies()" style="background:#4CAF50; color:#fff; border:none;
+                padding:8px 16px; border-radius:4px; cursor:pointer; font-size:0.85rem;">
+                Akzeptieren
+            </button>
+            <button onclick="declineCookies()" style="background:transparent; color:#aaa; border:1px solid #555;
+                padding:8px 16px; border-radius:4px; cursor:pointer; font-size:0.85rem;">
+                Ablehnen
+            </button>
+        </div>
+    </div>
+</div>
+
+{% block content %}{% endblock %}
+
+<footer>
+    <p>
+        <a href="/impressum">Impressum</a> &nbsp;|&nbsp;
+        <a href="/datenschutz">Datenschutz</a> &nbsp;|&nbsp;
+        <a href="/agb">AGB</a>
+    </p>
+    <p style="margin-top: 8px;">
+        &copy; {{ current_year }} {{ brand_name }} — Kein Ersatz für medizinische Beratung.
+        Alle Inhalte dienen der allgemeinen Information.
+    </p>
+</footer>
+
+<script>
+    // DSGVO Cookie Banner
+    (function() {
+        if (!localStorage.getItem('cookies_accepted')) {
+            document.getElementById('cookie-banner').style.display = 'block';
+        }
+    })();
+
+    function acceptCookies() {
+        localStorage.setItem('cookies_accepted', '1');
+        document.getElementById('cookie-banner').style.display = 'none';
+        // GA4 + Pixel aktivieren
+        if (typeof gtag !== 'undefined') gtag('consent', 'update', {'analytics_storage': 'granted', 'ad_storage': 'granted'});
+        if (typeof fbq !== 'undefined') fbq('consent', 'grant');
+    }
+
+    function declineCookies() {
+        localStorage.setItem('cookies_accepted', '0');
+        document.getElementById('cookie-banner').style.display = 'none';
+    }
+
+    // UTM Parameter in sessionStorage
+    (function() {
+        const params = new URLSearchParams(window.location.search);
+        ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k) {
+            if (params.get(k)) sessionStorage.setItem(k, params.get(k));
+        });
+    })();
+</script>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

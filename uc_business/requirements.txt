@@ -1,0 +1,19 @@
+# Core
+anthropic>=0.40.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+jinja2>=3.1.0
+
+# Web Scraping (Facebook-Gruppen Intelligence)
+playwright>=1.40.0
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+
+# Google Ads
+google-ads>=23.0.0
+
+# Meta / Facebook
+facebook-business>=19.0.0
+
+# Utilities
+aiohttp>=3.9.0

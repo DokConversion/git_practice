@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %}Danke! Hier ist dein Guide — {{ brand_name }}{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .thankyou-hero {
+        background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+        color: #fff;
+        padding: 48px 20px 40px;
+        text-align: center;
+    }
+    .check-icon {
+        width: 72px;
+        height: 72px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+    }
+    .thankyou-hero h1 { font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: 12px; }
+    .thankyou-hero p { opacity: 0.9; max-width: 480px; margin: 0 auto; }
+
+    .download-box {
+        background: var(--card);
+        border-radius: 16px;
+        padding: 32px 28px;
+        max-width: 480px;
+        margin: -20px auto 32px;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+        text-align: center;
+    }
+    .download-box h2 { font-size: 1.2rem; margin-bottom: 8px; }
+    .download-box p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 24px; }
+
+    /* Bridge to Sales */
+    .bridge-section {
+        background: #FFF8F0;
+        border-left: 4px solid var(--accent);
+        padding: 28px 24px;
+        margin: 32px 0;
+        border-radius: 0 12px 12px 0;
+    }
+    .bridge-section h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text); }
+    .bridge-section p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 16px; }
+
+    .next-steps {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 28px 24px;
+        margin: 16px 0;
+    }
+    .next-steps h3 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+    .step {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+        align-items: flex-start;
+    }
+    .step-number {
+        width: 32px;
+        height: 32px;
+        background: var(--primary);
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+    }
+    .step-content { font-size: 0.9rem; line-height: 1.5; }
+    .step-content strong { display: block; margin-bottom: 2px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- DANKE HERO -->
+<section class="thankyou-hero">
+    <div class="container">
+        <div class="check-icon">✓</div>
+        <h1>Geschafft! Du bist drin.</h1>
+        <p>Dein UC Starter-Guide ist auf dem Weg — schau gleich in dein Postfach (auch Spam-Ordner prüfen).</p>
+    </div>
+</section>
+
+<!-- DOWNLOAD BOX -->
+<section style="padding: 0 20px 24px;">
+    <div class="download-box">
+        <h2>📥 Dein Guide kommt per E-Mail</h2>
+        <p>
+            Wir haben dir eine E-Mail an <strong>{{ email|default('deine Adresse') }}</strong> geschickt.
+            Der Link ist 7 Tage gültig.
+        </p>
+        {% if download_url %}
+        <a href="{{ download_url }}" class="btn-primary" download>
+            Direkt herunterladen (PDF)
+        </a>
+        {% endif %}
+    </div>
+</section>
+
+<!-- BRIDGE TO SALES PAGE -->
+<section style="padding: 0 20px;">
+    <div class="container">
+        <div class="bridge-section">
+            <h3>⚡ Warte kurz — bevor du weitermachst:</h3>
+            <p>
+                Der Guide ist ein guter Start. Aber viele Betroffene fragen uns:
+                <em>"Was tue ich, wenn ich das alles weiß — aber trotzdem nicht weiß, wie ich anfangen soll?"</em>
+            </p>
+            <p>
+                Deshalb haben wir den <strong>UC Ernährungs-Kompass</strong> entwickelt:
+                ein konkreter Schritt-für-Schritt-Plan speziell für CU-Betroffene.
+            </p>
+            <a href="{{ sales_page_url|default('/uc-ernaehrungs-kompass') }}" class="btn-primary">
+                Mehr erfahren — jetzt nur €{{ entry_price|default('37') }} →
+            </a>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 12px; text-align: center;">
+                Kein Abo, einmalige Zahlung, sofortiger Zugang.
+            </p>
+        </div>
+
+        <!-- NÄCHSTE SCHRITTE -->
+        <div class="next-steps">
+            <h3>Deine nächsten 3 Schritte:</h3>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <strong>E-Mail prüfen</strong>
+                    Dein Guide ist bereits unterwegs — auch Spam-Ordner checken.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <strong>Guide heute lesen</strong>
+                    Plane 15-20 Minuten ein. Du wirst überrascht sein, was du noch nicht wusstest.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <strong>Erste Erkenntnisse umsetzen</strong>
+                    Schon kleine Änderungen können große Unterschiede machen.
+                    Wir begleiten dich dabei per E-Mail.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Conversion Tracking
+    {% if meta_pixel_id %}
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'CompleteRegistration', {value: 0, currency: 'EUR'});
+    }
+    {% endif %}
+    {% if ga4_id %}
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'sign_up', {'method': 'optin_form'});
+    }
+    {% endif %}
+</script>
+{% endblock %}
