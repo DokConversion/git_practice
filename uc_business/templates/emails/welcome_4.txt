@@ -1,0 +1,43 @@
+BETREFF: Was genau ist im UC Ernährungs-Kompass?
+BETREFF_B: Deine Fragen — unsere Antworten
+
+---
+
+Hey {{ first_name }},
+
+vielleicht fragst du dich: "Was bekomme ich da eigentlich genau?"
+
+Berechtigte Frage. Hier ist die Antwort:
+
+---
+
+**UC Ernährungs-Kompass** — das steckt drin:
+
+**Teil 1 — Verstehen (Seiten 1-12)**
+Warum reagiert dein Darm so, wie er reagiert?
+Welche Rolle spielen Entzündungsmediatoren wirklich?
+Was hat dein Mikrobiom damit zu tun?
+
+**Teil 2 — Essen neu denken (Seiten 13-28)**
+Die 3 Phasen der CU-gerechten Ernährung
+Welche Lebensmittel in Remission sicher sind
+Was du im Schub essen kannst (und was nicht)
+Schnelle Rezept-Ideen für Alltag und Unterwegs
+
+**Teil 3 — Dein persönlicher Plan (Seiten 29-44)**
+Das 4-Wochen-Framework für den Einstieg
+Wie du dein Reaktions-Muster erkennst
+Dein Symptom- & Ernährungs-Tagebuch (ausfüllbar)
+
+---
+
+Preis: 37 Euro — einmalig, kein Abo.
+
+→ [Jetzt den Kompass holen]
+
+Falls du ihn dir noch nicht geholt hast: Das Angebot läuft noch bis [DATUM].
+
+Bis bald,
+Das UC Insider-Team
+
+P.S. Du hast Fragen? Antworte direkt auf diese Mail. Echte Antwort, kein Bot.

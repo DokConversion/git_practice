@@ -1,0 +1,35 @@
+BETREFF: Das sagen uns Betroffene immer wieder
+BETREFF_B: "Ich dachte, ich bin einfach schwach"
+
+---
+
+Hey {{ first_name }},
+
+ich möchte dir etwas zeigen.
+
+Immer wenn wir in der UC-Insider-Community fragen: "Was ist deine größte Herausforderung?" — kommt eine Antwort immer wieder.
+
+Nicht die Symptome selbst.
+Nicht die Medikamente.
+Nicht mal die Einschränkungen.
+
+Sondern das hier:
+
+"Ich weiß nie, was ich essen soll. Jede Mahlzeit ist ein Experiment."
+
+Klingt bekannt?
+
+Das Problem ist nicht fehlendes Wissen — denn du hast gegoogelt, ausprobiert, gelesen.
+
+Das Problem ist, dass es keine klare Anleitung gibt, die zu *deinem* Alltag passt.
+
+Nicht zu einem Lehrbuch-Patienten.
+Nicht zu jemand, der zuhause kochen kann.
+Zu dir. Mit deiner Arbeit, deiner Familie, deinen Vorlieben.
+
+Genau daran arbeiten wir.
+
+Morgen zeige ich dir, was einer unserer Nutzer in 8 Wochen umgesetzt hat — und was sich für ihn verändert hat.
+
+Bis dann,
+Das UC Insider-Team

@@ -1,0 +1,29 @@
+BETREFF: Dein UC Starter-Guide ist da 📥
+BETREFF_B: Hier ist dein kostenloser Guide (+ 1 wichtiger Hinweis)
+
+---
+
+Hey {{ first_name }},
+
+dein UC Starter-Guide ist bereit — du kannst ihn hier herunterladen:
+
+→ [GUIDE HERUNTERLADEN]
+
+Was dich erwartet:
+✓ Die 5 häufigsten Ernährungsfehler bei Colitis Ulcerosa
+✓ Welche Lebensmittel einen Schub begünstigen (und welche beruhigen)
+✓ Warum "gesundes Essen" manchmal das Gegenteil bewirkt
+✓ Ein einfaches Tages-Framework für ruhigere Tage
+
+---
+
+Noch etwas: In den nächsten Tagen schreibe ich dir ein paar kurze Nachrichten.
+
+Nicht mit Werbung — sondern mit Dingen, die ich aus über 200 Gesprächen mit CU-Betroffenen gelernt habe.
+
+Dinge, über die kaum jemand spricht.
+
+Bis morgen,
+Das UC Insider-Team
+
+P.S. Falls du den Guide nicht siehst — prüf bitte deinen Spam-Ordner und markiere diese Adresse als "kein Spam". So stellst du sicher, dass dir die nächsten Mails nicht entgehen.
