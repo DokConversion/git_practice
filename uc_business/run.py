@@ -18,6 +18,9 @@ KOMMANDOS:
   --creatives       Neue Ad-Creatives + Email-Texte generieren
   --pages           Landing Pages rendern
   --dashboard       KPI-Dashboard anzeigen
+  --analyst         Data-Analyst: KPI-Analyse + Anomalien + AI-Empfehlungen
+  --brand           Brand Agent: Identity generieren + Website-Audit
+  --psychology      Psychology Expert: Limbic/Spiral/Schwartz-Analyse
   --report          Nur Tages-Report
   --weekly          Wöchentlicher Intelligence Refresh
 
@@ -80,6 +83,12 @@ def main():
                        help="Wöchentlicher Intelligence Refresh")
     group.add_argument("--email-preview", action="store_true",
                        help="Email-Sequenzen als Preview anzeigen")
+    group.add_argument("--analyst", action="store_true",
+                       help="Data Analyst: KPI-Analyse + Anomalien + AI-Empfehlungen")
+    group.add_argument("--brand", action="store_true",
+                       help="Brand Agent: Identity generieren + Website-Audit")
+    group.add_argument("--psychology", action="store_true",
+                       help="Psychology Expert: Limbic/Spiral/Schwartz-Analyse")
 
     # Flags
     parser.add_argument("--live", action="store_true",
@@ -135,6 +144,20 @@ def main():
     elif args.email_preview:
         from email_agent import get_sequence_preview
         get_sequence_preview()
+
+    elif args.analyst:
+        from data_analyst import run as analyst_run, print_analyst_report
+        from config import DB_PATH
+        report = analyst_run(db_path=DB_PATH, days=7, dry_run=dry_run)
+        print_analyst_report(report)
+
+    elif args.brand:
+        from brand_agent import run as brand_run
+        brand_run(audit_url="https://lebenmitcolitis.de/", dry_run=dry_run)
+
+    elif args.psychology:
+        from psychology_expert import run as psych_run
+        psych_run(dry_run=dry_run)
 
     else:
         # Standard: Dashboard + kurzer Status
