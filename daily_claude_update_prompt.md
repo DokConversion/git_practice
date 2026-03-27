@@ -1,55 +1,24 @@
-# Daily Claude Code Update – Performance Marketing / VSL Focus
+# Daily Claude Code Briefing – marc@winestreet-media.de
 
-## Task
+## Context
+Performance Marketing Agency, VSL focus (Meta/YouTube/Google Ads, Direct Response).
 
-Search for the latest developments, updates, tips, and use cases around **Claude Code** and send a concise daily briefing via email to marc@winestreet-media.de.
+## Steps
+1. Search: "Claude Code" changelog/updates/skills (last 24h) – Anthropic blog, GitHub, X/Twitter
+2. Search: YouTube "Claude Code" – top 3 videos by views (last 7 days), transcribe key points
+3. Filter for relevance: VSL scripting, ad copy automation, campaign analysis, prompt engineering
+4. Send email
 
-## Recipient Context
+## Email
+**To:** marc@winestreet-media.de
+**Subject:** Claude Code Update – [DATE]
 
-- **Company:** Winestreet Media – Performance Marketing Agency
-- **Focus:** Video Sales Letters (VSLs), Direct Response, Paid Ads (Meta, YouTube, Google)
-- **Use Cases of Interest:**
-  - AI-assisted VSL scripting & copywriting
-  - Automating campaign analysis and reporting
-  - Prompt engineering for ad creatives
-  - Claude Code skills/hooks for marketing workflows
-  - A/B testing copy generation
-  - Landing page optimization automation
+```
+### Updates (max 3 bullets)
+### Neuer Skill/Befehl (falls vorhanden)
+### VSL Use Case des Tages (1 konkretes Beispiel)
+### Top Video-Insight (Quelle + 1-2 Sätze)
+### Quick Tip (1 Satz)
+```
 
-## Research Steps
-
-1. Search for latest Claude Code updates, changelogs, and announcements (claude.ai, Anthropic blog, GitHub anthropics/claude-code)
-2. Search for new Claude Code skills, hooks, slash commands, or MCP integrations
-3. Find 1-2 practical use cases or community tips relevant to Performance Marketing / VSL agencies
-4. Check for new Claude API / Anthropic SDK features relevant to building marketing automation tools
-
-## Email Format
-
-**Subject:** ☀️ Claude Code Daily Update – [DATE]
-
-**Body:**
-
----
-
-### Neue Features & Updates
-- [Bullet points with the most important changes]
-
-### Nützliche Skills & Befehle
-- [New or noteworthy Claude Code skills, hooks, commands]
-
-### Use Case des Tages (Performance Marketing / VSL)
-- [1 concrete, actionable use case for a VSL/performance marketing agency]
-
-### Quick Tip
-- [1 short tip to get more out of Claude Code today]
-
----
-
-*Automatisch generiert für marc@winestreet-media.de | Winestreet Media*
-
-## Email Delivery
-
-Use the available email sending tool or SMTP configuration to send the formatted briefing to:
-- **To:** marc@winestreet-media.de
-- **From:** noreply@claude-updates.ai (or configured sender)
-- **Time:** Daily at 06:00 AM (Europe/Berlin timezone)
+Keep each section max 2-3 sentences. No filler. German language.
