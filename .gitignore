@@ -5,3 +5,14 @@ data/*.db
 data/*.db-wal
 data/*.db-shm
 logs/
+
+# Remotion / Node
+node_modules/
+remotion-video/node_modules/
+remotion-video/out/
+remotion-video/dist/
+remotion-video/.remotion/
+*_analysis.json
+*.mp4
+*.webm
+*.mov

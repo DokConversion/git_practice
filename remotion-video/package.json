@@ -1,0 +1,53 @@
+{
+  "name": "remotion-video",
+  "version": "1.0.0",
+  "description": "Professionelle Video-Produktion mit Remotion - React-basierte Video-Engine",
+  "main": "src/index.ts",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "preview": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts MainVideo out/video.mp4",
+    "render:all": "remotion render src/index.ts",
+    "render:text": "remotion render src/index.ts TextReveal out/text-reveal.mp4",
+    "render:ken-burns": "remotion render src/index.ts KenBurns out/ken-burns.mp4",
+    "render:split": "remotion render src/index.ts SplitScreen out/split-screen.mp4",
+    "render:audio-viz": "remotion render src/index.ts AudioVisualizer out/audio-viz.mp4",
+    "still": "remotion still src/index.ts MainVideo out/thumbnail.png",
+    "analyze": "npx ts-node src/analyzer/cli.ts",
+    "build": "tsc --noEmit",
+    "upgrade": "remotion upgrade"
+  },
+  "keywords": [
+    "remotion",
+    "video",
+    "react",
+    "video-editing",
+    "motion-graphics",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@remotion/bundler": "^4.0.448",
+    "@remotion/cli": "^4.0.448",
+    "@remotion/media-utils": "^4.0.448",
+    "@remotion/motion-blur": "^4.0.448",
+    "@remotion/noise": "^4.0.448",
+    "@remotion/paths": "^4.0.448",
+    "@remotion/player": "^4.0.448",
+    "@remotion/renderer": "^4.0.448",
+    "@remotion/transitions": "^4.0.448",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "remotion": "^4.0.448",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@remotion/tailwind": "^4.0.448",
+    "@types/node": "^22.19.17",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  }
+}
