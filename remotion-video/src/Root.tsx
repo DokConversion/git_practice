@@ -184,7 +184,7 @@ export const RemotionRoot: React.FC = () => {
         id="MarcReel"
         component={MarcReelComposition}
         schema={marcReelSchema}
-        durationInFrames={35 * 30}
+        durationInFrames={38 * 30}
         fps={30}
         width={1080}
         height={1920}
