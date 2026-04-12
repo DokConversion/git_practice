@@ -9,219 +9,183 @@ import {
   useVideoConfig,
   spring,
   interpolate,
-  Easing,
   random,
 } from "remotion";
 import { z } from "zod";
 import { loadFont } from "@remotion/google-fonts/Poppins";
 
-// Lade Poppins Font
-const { fontFamily } = loadFont("normal", {
+const { fontFamily: FONT } = loadFont("normal", {
   weights: ["300", "400", "600", "700", "800"],
 });
-
-const FONT = fontFamily;
 
 export const marcReelSchema = z.object({
   videoFile: z.string(),
 });
 
+/**
+ * Marc's Signal Marketing Reel - V3
+ *
+ * ARCHITEKTUR: Video + Audio laufen DURCHGEHEND.
+ * Text-Slides und B-Roll sind Overlays die drueber gelegt werden.
+ * So bleibt alles synchron.
+ *
+ * Timestamps aus Whisper-Transkription:
+ * 00:00-04.8  "Der Hauptgrund warum deine Funnels nicht performen
+ *              liegt daran dass du nicht verstanden hast dass Signal"
+ * 04.8-07.0   "Marketing in 2026 zaehlt."
+ * 07.0-11.5   "Die meisten versuchen ihre Kampagnen..."
+ * 11.5-16.4   "...auf Events zu optimieren statt auf Signale."
+ * 16.4-21.6   "Wenn du den Unterschied verstehst..."
+ * 21.6-24.0   "...bessere Ergebnisse im Performance Marketing."
+ * 24.2-25.5   "Lasst mich kurz erklaeren."
+ * 25.5-32.4   "Signale sind Events die tiefer kommen aus CRM..."
+ * 32.4-36.8   "...Algorithmus mehr arbeiten kann..."
+ * 36.8-42.0   "Live-Webinar, meld dich jetzt an."
+ */
+
 export const MarcReelComposition: React.FC<
   z.infer<typeof marcReelSchema>
 > = ({ videoFile }) => {
   const { fps } = useVideoConfig();
+  const sec = (s: number) => Math.round(s * fps);
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000000", fontFamily: FONT }}>
 
-      {/* === DURCHGEHENDE AUDIO-SPUR === */}
+      {/* ========================================= */}
+      {/* LAYER 1: VIDEO - laeuft DURCHGEHEND       */}
+      {/* ========================================= */}
+      <OffthreadVideo
+        src={staticFile(videoFile)}
+        muted
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
+
+      {/* Cinematische Vignette (immer sichtbar) */}
+      <AbsoluteFill style={{
+        background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.5) 100%)",
+        pointerEvents: "none",
+      }} />
+      <AbsoluteFill style={{
+        background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 35%)",
+        pointerEvents: "none",
+      }} />
+
+      {/* ========================================= */}
+      {/* LAYER 2: AUDIO - laeuft DURCHGEHEND       */}
+      {/* ========================================= */}
       <Audio src={staticFile(videoFile)} volume={1} />
 
-      {/* ============================================ */}
-      {/* SZENE 1: TEXT HOOK (0-3s)                    */}
-      {/* Animierter Gradient-Hintergrund              */}
-      {/* ============================================ */}
-      <Sequence from={0} durationInFrames={3 * fps}>
-        <AbsoluteFill>
-          <AnimatedGradientBg
-            colors={["#0a0a0a", "#1a0a2e", "#0a0a0a"]}
-          />
-          <AbsoluteFill style={{
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "0 60px",
-          }}>
-            <AnimatedWords
-              words={[
-                { text: "Der Hauptgrund", delay: 0 },
-                { text: "warum deine", delay: 8 },
-                { text: "Funnels nicht", delay: 16, highlight: true },
-                { text: "performen", delay: 26, highlight: true },
-              ]}
-            />
-          </AbsoluteFill>
-        </AbsoluteFill>
+      {/* ========================================= */}
+      {/* LAYER 3: OVERLAYS (Text + B-Roll)         */}
+      {/* Diese ueberdecken das Video temporaer      */}
+      {/* ========================================= */}
+
+      {/* --- 0:00-0:02 TEXT HOOK --- */}
+      {/* Audio sagt: "Der Hauptgrund warum deine Funnels nicht performen" */}
+      <Sequence from={sec(0)} durationInFrames={sec(2)}>
+        <FadeOverlay>
+          <AnimatedGradientBg colors={["#0a0a0a", "#1a0a2e", "#0a0a0a"]} />
+          <CenterContent>
+            <AnimatedWords words={[
+              { text: "Der Hauptgrund", delay: 0 },
+              { text: "warum deine", delay: 8 },
+              { text: "Funnels nicht", delay: 16, highlight: true },
+              { text: "performen", delay: 26, highlight: true },
+            ]} />
+          </CenterContent>
+        </FadeOverlay>
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 2: TALKING HEAD (3-7.5s)               */}
-      {/* ============================================ */}
-      <Sequence from={3 * fps} durationInFrames={Math.round(4.5 * fps)}>
-        <TalkingHead videoFile={videoFile} startFromSec={0} />
-        <CaptionOverlay
-          words={[
-            { text: "liegt daran", start: 0, end: 20 },
-            { text: "dass du nicht", start: 20, end: 42 },
-            { text: "verstanden hast", start: 42, end: 65 },
-            { text: "Signal Marketing", start: 65, end: 90, highlight: true },
-            { text: "in 2026 zaehlt", start: 90, end: 130, highlight: true },
-          ]}
-        />
+      {/* --- 0:02-0:07 TALKING HEAD (sichtbar) --- */}
+      {/* Audio: "...liegt daran... Signal Marketing in 2026 zaehlt" */}
+      <Sequence from={sec(2)} durationInFrames={sec(5)}>
+        <CaptionOverlay words={[
+          { text: "liegt daran", start: 0, end: sec(0.8) },
+          { text: "dass du nicht", start: sec(0.8), end: sec(1.8) },
+          { text: "verstanden hast", start: sec(1.8), end: sec(2.8) },
+          { text: "Signal Marketing", start: sec(2.8), end: sec(4), highlight: true },
+          { text: "in 2026 zaehlt", start: sec(4), end: sec(5), highlight: true },
+        ]} />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 3: B-ROLL - Signal Wave Animation      */}
-      {/* (7.5-10s)                                    */}
-      {/* ============================================ */}
-      <Sequence from={Math.round(7.5 * fps)} durationInFrames={Math.round(2.5 * fps)}>
-        <SignalWaveBRoll />
-        <AbsoluteFill style={{
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 10,
-        }}>
-          <AnimatedWords
-            words={[
+      {/* --- 0:07-0:09 B-ROLL: Signal Wave --- */}
+      {/* Audio: "Schau, die meisten versuchen noch immer..." */}
+      <Sequence from={sec(7)} durationInFrames={sec(2)}>
+        <FadeOverlay>
+          <SignalWaveBRoll />
+          <CenterContent>
+            <AnimatedWords words={[
               { text: "Signal Marketing", delay: 0, highlight: true },
-              { text: ">", delay: 12 },
-              { text: "Events", delay: 20 },
-            ]}
-            size={68}
-          />
-        </AbsoluteFill>
+              { text: ">", delay: 10 },
+              { text: "Events", delay: 18 },
+            ]} size={68} />
+          </CenterContent>
+        </FadeOverlay>
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 4: TALKING HEAD (10-14s)               */}
-      {/* ============================================ */}
-      <Sequence from={10 * fps} durationInFrames={4 * fps}>
-        <TalkingHead videoFile={videoFile} startFromSec={7} />
-        <CaptionOverlay
-          words={[
-            { text: "Die meisten", start: 0, end: 18 },
-            { text: "versuchen", start: 18, end: 34 },
-            { text: "Kampagnen auf", start: 34, end: 55 },
-            { text: "Events", start: 55, end: 72 },
-            { text: "zu optimieren", start: 72, end: 95 },
-            { text: "statt auf Signale", start: 95, end: 120, highlight: true },
-          ]}
-        />
+      {/* --- 0:09-0:16 TALKING HEAD --- */}
+      {/* Audio: "...Kampagnen auf Events optimieren statt auf Signale" */}
+      <Sequence from={sec(9)} durationInFrames={sec(7)}>
+        <CaptionOverlay words={[
+          { text: "die meisten versuchen", start: 0, end: sec(1.5) },
+          { text: "ihre Kampagnen", start: sec(1.5), end: sec(2.8) },
+          { text: "auf Events", start: sec(2.8), end: sec(4) },
+          { text: "zu optimieren", start: sec(4), end: sec(5.2) },
+          { text: "statt auf", start: sec(5.2), end: sec(6) },
+          { text: "Signale", start: sec(6), end: sec(7), highlight: true },
+        ]} />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 5: B-ROLL - Dashboard Mockup (14-16s)  */}
-      {/* ============================================ */}
-      <Sequence from={14 * fps} durationInFrames={2 * fps}>
-        <DashboardBRoll />
+      {/* --- 0:16-0:18 B-ROLL: Dashboard --- */}
+      {/* Audio: "Wenn du den Unterschied verstehst..." */}
+      <Sequence from={sec(16)} durationInFrames={sec(2)}>
+        <FadeOverlay>
+          <DashboardBRoll />
+        </FadeOverlay>
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 6: TALKING HEAD (16-19.5s)             */}
-      {/* ============================================ */}
-      <Sequence from={16 * fps} durationInFrames={Math.round(3.5 * fps)}>
-        <TalkingHead videoFile={videoFile} startFromSec={14} />
-        <CaptionOverlay
-          words={[
-            { text: "Wenn du den", start: 0, end: 22 },
-            { text: "Unterschied", start: 22, end: 42, highlight: true },
-            { text: "verstehst", start: 42, end: 62 },
-            { text: "deutlich bessere", start: 68, end: 90, highlight: true },
-            { text: "Ergebnisse", start: 90, end: 105, highlight: true },
-          ]}
-        />
+      {/* --- 0:18-0:24 TALKING HEAD --- */}
+      {/* Audio: "...deutlich bessere Ergebnisse... Lasst mich erklaeren" */}
+      <Sequence from={sec(18)} durationInFrames={sec(6)}>
+        <CaptionOverlay words={[
+          { text: "deutlich bessere", start: 0, end: sec(1.5), highlight: true },
+          { text: "Ergebnisse", start: sec(1.5), end: sec(3), highlight: true },
+          { text: "im Performance Marketing", start: sec(3), end: sec(5) },
+          { text: "Lasst mich erklaeren", start: sec(5.2), end: sec(6) },
+        ]} />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 7: TEXT + Animated Metrics (19.5-22s)   */}
-      {/* ============================================ */}
-      <Sequence from={Math.round(19.5 * fps)} durationInFrames={Math.round(2.5 * fps)}>
-        <AbsoluteFill>
-          <AnimatedGradientBg
-            colors={["#0a0a0a", "#0a1628", "#0a0a0a"]}
-          />
-          <MetricsBRoll />
-          <AbsoluteFill style={{
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 10,
-          }}>
-            <AnimatedWords
-              words={[
-                { text: "Deutlich bessere", delay: 0, highlight: true },
-                { text: "Ergebnisse im", delay: 14 },
-                { text: "Performance Marketing", delay: 26 },
-              ]}
-              size={52}
-            />
-          </AbsoluteFill>
-        </AbsoluteFill>
+      {/* --- 0:24-0:26 B-ROLL: CRM Flow --- */}
+      {/* Audio: "Signale sind Events die tiefer kommen..." */}
+      <Sequence from={sec(24)} durationInFrames={sec(2)}>
+        <FadeOverlay>
+          <CRMFlowBRoll />
+        </FadeOverlay>
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 8: TALKING HEAD (22-28s)               */}
-      {/* "Signale kommen tiefer aus dem CRM"          */}
-      {/* ============================================ */}
-      <Sequence from={22 * fps} durationInFrames={6 * fps}>
-        <TalkingHead videoFile={videoFile} startFromSec={24} />
-        <CaptionOverlay
-          words={[
-            { text: "Lasst mich", start: 0, end: 18 },
-            { text: "kurz erklaeren", start: 18, end: 40 },
-            { text: "Signale sind Events", start: 46, end: 72, highlight: true },
-            { text: "die deutlich", start: 72, end: 92 },
-            { text: "tiefer kommen", start: 92, end: 115, highlight: true },
-            { text: "aus einem CRM", start: 120, end: 150, highlight: true },
-            { text: "Der Algorithmus", start: 155, end: 175 },
-          ]}
-        />
+      {/* --- 0:26-0:37 TALKING HEAD --- */}
+      {/* Audio: "...aus einem CRM... Algorithmus... Live-Webinar" */}
+      <Sequence from={sec(26)} durationInFrames={sec(11)}>
+        <CaptionOverlay words={[
+          { text: "aus einem CRM", start: 0, end: sec(1.8), highlight: true },
+          { text: "der Algorithmus", start: sec(2), end: sec(3.5) },
+          { text: "kann damit", start: sec(3.5), end: sec(4.8) },
+          { text: "deutlich mehr", start: sec(4.8), end: sec(6.2), highlight: true },
+          { text: "arbeiten", start: sec(6.2), end: sec(7.5) },
+          { text: "Wie das geht", start: sec(8), end: sec(9.2) },
+          { text: "zeige ich dir", start: sec(9.2), end: sec(10) },
+          { text: "im Live-Webinar", start: sec(10), end: sec(11), highlight: true },
+        ]} />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 9: B-ROLL - CRM Flow (28-30s)          */}
-      {/* ============================================ */}
-      <Sequence from={28 * fps} durationInFrames={2 * fps}>
-        <CRMFlowBRoll />
-        <AbsoluteFill style={{
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 10,
-        }}>
-          <AnimatedWords
-            words={[
-              { text: "CRM", delay: 0, highlight: true },
-              { text: "→ Algorithmus", delay: 10 },
-              { text: "→ Ergebnisse", delay: 22, highlight: true },
-            ]}
-            size={52}
-          />
-        </AbsoluteFill>
-      </Sequence>
-
-      {/* ============================================ */}
-      {/* SZENE 10: TALKING HEAD + CTA (30-38s)        */}
-      {/* ============================================ */}
-      <Sequence from={30 * fps} durationInFrames={8 * fps}>
-        <TalkingHead videoFile={videoFile} startFromSec={36.8} />
-        <CaptionOverlay
-          words={[
-            { text: "Wie das geht", start: 0, end: 25 },
-            { text: "zeige ich dir", start: 25, end: 48 },
-            { text: "im Live-Webinar", start: 48, end: 80, highlight: true },
-            { text: "Meld dich", start: 90, end: 115 },
-            { text: "jetzt an!", start: 115, end: 160, highlight: true },
-          ]}
-        />
-        <Sequence from={4 * fps}>
+      {/* --- 0:37-0:42 CTA --- */}
+      <Sequence from={sec(37)} durationInFrames={sec(5)}>
+        <CaptionOverlay words={[
+          { text: "Meld dich", start: 0, end: sec(1.5) },
+          { text: "jetzt an!", start: sec(1.5), end: sec(5), highlight: true },
+        ]} />
+        <Sequence from={sec(1)}>
           <CTAButton text="Jetzt anmelden" />
         </Sequence>
       </Sequence>
@@ -231,11 +195,42 @@ export const MarcReelComposition: React.FC<
 };
 
 // ===========================
-// KOMPONENTEN
+// HELPER KOMPONENTEN
 // ===========================
 
-// --- Animated Words (Text-on-Black Szenen) ---
+// --- Overlay mit Fade-In/Out ---
+const FadeOverlay: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const frame = useCurrentFrame();
+  const { durationInFrames, fps } = useVideoConfig();
 
+  const fadeIn = interpolate(frame, [0, 8], [0, 1], { extrapolateRight: "clamp" });
+  const fadeOut = interpolate(
+    frame,
+    [durationInFrames - 8, durationInFrames],
+    [1, 0],
+    { extrapolateLeft: "clamp" }
+  );
+
+  return (
+    <AbsoluteFill style={{ opacity: Math.min(fadeIn, fadeOut), zIndex: 5 }}>
+      {children}
+    </AbsoluteFill>
+  );
+};
+
+// --- Center Content ---
+const CenterContent: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <AbsoluteFill style={{
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "0 60px",
+    zIndex: 10,
+  }}>
+    {children}
+  </AbsoluteFill>
+);
+
+// --- Animated Words (Text Slides) ---
 const AnimatedWords: React.FC<{
   words: { text: string; delay: number; highlight?: boolean }[];
   size?: number;
@@ -244,34 +239,23 @@ const AnimatedWords: React.FC<{
   const { fps } = useVideoConfig();
 
   return (
-    <div style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 8,
-    }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
       {words.map((word, i) => {
-        const age = Math.max(0, frame - word.delay);
         const progress = spring({
-          frame: age,
+          frame: Math.max(0, frame - word.delay),
           fps,
           config: { damping: 18, stiffness: 180, mass: 0.5 },
         });
-
         return (
-          <div
-            key={i}
-            style={{
-              fontSize: size,
-              fontWeight: word.highlight ? 700 : 300,
-              color: word.highlight ? "#D4A537" : "#ffffff",
-              opacity: interpolate(progress, [0, 1], [0, 1]),
-              transform: `translateY(${interpolate(progress, [0, 1], [25, 0])}px) scale(${interpolate(progress, [0, 1], [0.9, 1])})`,
-              fontFamily: FONT,
-              textAlign: "center",
-              letterSpacing: "-0.02em",
-            }}
-          >
+          <div key={i} style={{
+            fontSize: size,
+            fontWeight: word.highlight ? 700 : 300,
+            color: word.highlight ? "#D4A537" : "#ffffff",
+            opacity: progress,
+            transform: `translateY(${interpolate(progress, [0, 1], [25, 0])}px)`,
+            fontFamily: FONT,
+            textAlign: "center",
+          }}>
             {word.text}
           </div>
         );
@@ -280,36 +264,30 @@ const AnimatedWords: React.FC<{
   );
 };
 
-// --- Caption Overlay (fuer Talking Head) ---
-
+// --- Caption Overlay (Talking Head) ---
 const CaptionOverlay: React.FC<{
   words: { text: string; start: number; end: number; highlight?: boolean }[];
 }> = ({ words }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-
   const current = words.find((w) => frame >= w.start && frame < w.end);
   if (!current) return null;
 
-  const age = frame - current.start;
   const progress = spring({
-    frame: age,
+    frame: frame - current.start,
     fps,
     config: { damping: 22, stiffness: 280, mass: 0.4 },
   });
 
   return (
     <div style={{
-      position: "absolute",
-      top: "58%",
-      left: 0,
-      right: 0,
-      display: "flex",
-      justifyContent: "center",
+      position: "absolute", top: "58%",
+      left: 0, right: 0,
+      display: "flex", justifyContent: "center",
       zIndex: 10,
     }}>
       <div style={{
-        opacity: interpolate(progress, [0, 1], [0, 1]),
+        opacity: progress,
         transform: `scale(${interpolate(progress, [0, 1], [0.88, 1])})`,
       }}>
         <span style={{
@@ -318,7 +296,6 @@ const CaptionOverlay: React.FC<{
           color: current.highlight ? "#D4A537" : "#ffffff",
           fontFamily: FONT,
           textShadow: "0 2px 12px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.6)",
-          letterSpacing: "-0.01em",
         }}>
           {current.text}
         </span>
@@ -327,114 +304,47 @@ const CaptionOverlay: React.FC<{
   );
 };
 
-// --- Talking Head ---
-
-const TalkingHead: React.FC<{
-  videoFile: string;
-  startFromSec: number;
-}> = ({ videoFile, startFromSec }) => {
-  return (
-    <AbsoluteFill>
-      <OffthreadVideo
-        src={staticFile(videoFile)}
-        startFrom={Math.round(startFromSec * 30)}
-        muted
-        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-      />
-      <AbsoluteFill style={{
-        background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.5) 100%)",
-        pointerEvents: "none",
-      }} />
-      <AbsoluteFill style={{
-        background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 35%)",
-        pointerEvents: "none",
-      }} />
-    </AbsoluteFill>
-  );
-};
-
 // --- Animated Gradient Background ---
-
-const AnimatedGradientBg: React.FC<{
-  colors: string[];
-}> = ({ colors }) => {
+const AnimatedGradientBg: React.FC<{ colors: string[] }> = ({ colors }) => {
   const frame = useCurrentFrame();
-  const angle = frame * 0.5;
   return (
     <AbsoluteFill style={{
-      background: `linear-gradient(${angle}deg, ${colors.join(", ")})`,
+      background: `linear-gradient(${frame * 0.5}deg, ${colors.join(", ")})`,
     }} />
   );
 };
 
-// --- B-ROLL: Signal Wave Animation ---
-
+// --- B-ROLL: Signal Wave ---
 const SignalWaveBRoll: React.FC = () => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
+  const pts = 80;
 
-  const points = 80;
-  const pathData = Array.from({ length: points }).map((_, i) => {
-    const x = (i / points) * width;
-    const y = height / 2 +
-      Math.sin((i / points) * 6 + frame * 0.08) * 80 +
-      Math.sin((i / points) * 3 + frame * 0.05) * 40;
-    return `${i === 0 ? "M" : "L"} ${x} ${y}`;
-  }).join(" ");
+  const makePath = (freq: number, amp: number, speed: number, phase: number) =>
+    Array.from({ length: pts }).map((_, i) => {
+      const x = (i / pts) * width;
+      const y = height / 2 +
+        Math.sin((i / pts) * freq + frame * speed) * amp +
+        Math.sin((i / pts) * (freq * 0.5) + frame * speed * 0.7 + phase) * (amp * 0.5);
+      return `${i === 0 ? "M" : "L"} ${x} ${y}`;
+    }).join(" ");
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#050510" }}>
       <svg width={width} height={height}>
-        {/* Glow */}
-        <path d={pathData} fill="none" stroke="#D4A53744" strokeWidth={20} />
-        <path d={pathData} fill="none" stroke="#D4A53788" strokeWidth={6} />
-        <path d={pathData} fill="none" stroke="#D4A537" strokeWidth={2} />
-        {/* Zweite Welle */}
-        {(() => {
-          const p2 = Array.from({ length: points }).map((_, i) => {
-            const x = (i / points) * width;
-            const y = height / 2 +
-              Math.cos((i / points) * 4 + frame * 0.06) * 60 +
-              Math.sin((i / points) * 7 + frame * 0.1) * 30;
-            return `${i === 0 ? "M" : "L"} ${x} ${y}`;
-          }).join(" ");
-          return (
-            <>
-              <path d={p2} fill="none" stroke="#6366f144" strokeWidth={12} />
-              <path d={p2} fill="none" stroke="#6366f1" strokeWidth={2} />
-            </>
-          );
-        })()}
+        <path d={makePath(6, 80, 0.08, 0)} fill="none" stroke="#D4A53744" strokeWidth={20} />
+        <path d={makePath(6, 80, 0.08, 0)} fill="none" stroke="#D4A537" strokeWidth={2} />
+        <path d={makePath(4, 60, 0.06, 2)} fill="none" stroke="#6366f144" strokeWidth={12} />
+        <path d={makePath(4, 60, 0.06, 2)} fill="none" stroke="#6366f1" strokeWidth={2} />
       </svg>
-      {/* Particles */}
-      {Array.from({ length: 20 }).map((_, i) => {
-        const x = random(`sw-x-${i}`) * width;
-        const baseY = random(`sw-y-${i}`) * height;
-        const y = baseY + Math.sin(frame * 0.05 + i) * 20;
-        const size = random(`sw-s-${i}`) * 4 + 1;
-        return (
-          <div key={i} style={{
-            position: "absolute",
-            left: x, top: y,
-            width: size, height: size,
-            borderRadius: "50%",
-            backgroundColor: "#D4A537",
-            opacity: 0.3 + random(`sw-o-${i}`) * 0.4,
-          }} />
-        );
-      })}
     </AbsoluteFill>
   );
 };
 
-// --- B-ROLL: Dashboard Mockup ---
-
+// --- B-ROLL: Dashboard ---
 const DashboardBRoll: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-
-  const progress = spring({ frame, fps, config: { damping: 15, stiffness: 80 } });
-
   const bars = [
     { label: "Click Events", value: 35, color: "#ef4444" },
     { label: "Form Submits", value: 52, color: "#f59e0b" },
@@ -448,67 +358,33 @@ const DashboardBRoll: React.FC = () => {
       alignItems: "center",
       padding: 60,
     }}>
-      {/* Header */}
       <div style={{
-        position: "absolute",
-        top: "25%",
-        fontSize: 28,
-        fontWeight: 300,
-        color: "#64748b",
-        fontFamily: FONT,
-        opacity: progress,
-        letterSpacing: "0.1em",
-        textTransform: "uppercase",
+        position: "absolute", top: "25%",
+        fontSize: 28, fontWeight: 300, color: "#64748b",
+        fontFamily: FONT, letterSpacing: "0.1em", textTransform: "uppercase",
+        opacity: spring({ frame, fps, config: { damping: 15, stiffness: 80 } }),
       }}>
         Performance Vergleich
       </div>
-
-      {/* Bars */}
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 40,
-        width: "80%",
-        marginTop: 40,
-      }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 40, width: "80%", marginTop: 40 }}>
         {bars.map((bar, i) => {
-          const barDelay = i * 8;
-          const barAge = Math.max(0, frame - barDelay);
-          const barProgress = spring({
-            frame: barAge, fps,
+          const p = spring({
+            frame: Math.max(0, frame - i * 8), fps,
             config: { damping: 12, stiffness: 60 },
           });
-          const width = bar.value * barProgress;
-
           return (
             <div key={i}>
-              <div style={{
-                fontSize: 22, fontWeight: 400, color: "#94a3b8",
-                marginBottom: 10, fontFamily: FONT,
-                opacity: barProgress,
-              }}>
+              <div style={{ fontSize: 22, fontWeight: 400, color: "#94a3b8", marginBottom: 10, fontFamily: FONT, opacity: p }}>
                 {bar.label}
               </div>
-              <div style={{
-                height: 36, borderRadius: 8,
-                backgroundColor: "#1e293b",
-                overflow: "hidden",
-              }}>
+              <div style={{ height: 36, borderRadius: 8, backgroundColor: "#1e293b", overflow: "hidden" }}>
                 <div style={{
-                  height: "100%",
-                  width: `${width}%`,
-                  backgroundColor: bar.color,
-                  borderRadius: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                  paddingRight: 12,
+                  height: "100%", width: `${bar.value * p}%`,
+                  backgroundColor: bar.color, borderRadius: 8,
+                  display: "flex", alignItems: "center", justifyContent: "flex-end", paddingRight: 12,
                 }}>
-                  <span style={{
-                    fontSize: 18, fontWeight: 700,
-                    color: "#fff", fontFamily: FONT,
-                  }}>
-                    {Math.round(width)}%
+                  <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", fontFamily: FONT }}>
+                    {Math.round(bar.value * p)}%
                   </span>
                 </div>
               </div>
@@ -520,102 +396,44 @@ const DashboardBRoll: React.FC = () => {
   );
 };
 
-// --- B-ROLL: Metrics Animation ---
-
-const MetricsBRoll: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps, width, height } = useVideoConfig();
-
-  return (
-    <AbsoluteFill style={{ opacity: 0.15 }}>
-      {Array.from({ length: 12 }).map((_, i) => {
-        const x = random(`m-x-${i}`) * width;
-        const y = random(`m-y-${i}`) * height;
-        const size = random(`m-s-${i}`) * 60 + 30;
-        const speed = random(`m-sp-${i}`) * 0.5 + 0.3;
-        const floatY = Math.sin(frame * speed * 0.1 + i) * 15;
-
-        return (
-          <div key={i} style={{
-            position: "absolute",
-            left: x, top: y + floatY,
-            width: size, height: size,
-            borderRadius: 12,
-            border: "1px solid #D4A53733",
-            backgroundColor: "#D4A53708",
-          }} />
-        );
-      })}
-    </AbsoluteFill>
-  );
-};
-
 // --- B-ROLL: CRM Flow ---
-
 const CRMFlowBRoll: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-
   const steps = [
-    { icon: "📊", label: "CRM", delay: 0 },
-    { icon: "⚡", label: "Signal", delay: 8 },
-    { icon: "🎯", label: "Algorithmus", delay: 16 },
-    { icon: "📈", label: "Performance", delay: 24 },
+    { icon: "📊", label: "CRM Daten" },
+    { icon: "⚡", label: "Signal" },
+    { icon: "🎯", label: "Algorithmus" },
+    { icon: "📈", label: "Performance" },
   ];
 
   return (
-    <AbsoluteFill style={{
-      backgroundColor: "#050510",
-      justifyContent: "center",
-      alignItems: "center",
-    }}>
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 30,
-      }}>
+    <AbsoluteFill style={{ backgroundColor: "#050510", justifyContent: "center", alignItems: "center" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
         {steps.map((step, i) => {
-          const age = Math.max(0, frame - step.delay);
-          const progress = spring({
-            frame: age, fps,
+          const p = spring({
+            frame: Math.max(0, frame - i * 6), fps,
             config: { damping: 15, stiffness: 150 },
           });
-
           return (
             <React.Fragment key={i}>
               <div style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 16,
-                opacity: progress,
-                transform: `translateX(${interpolate(progress, [0, 1], [-30, 0])}px)`,
+                display: "flex", alignItems: "center", gap: 16,
+                opacity: p, transform: `translateX(${interpolate(p, [0, 1], [-30, 0])}px)`,
               }}>
                 <div style={{
-                  width: 56, height: 56,
-                  borderRadius: 14,
-                  backgroundColor: "#1a1a2e",
-                  border: "1px solid #D4A53744",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontSize: 28,
+                  width: 56, height: 56, borderRadius: 14,
+                  backgroundColor: "#1a1a2e", border: "1px solid #D4A53744",
+                  display: "flex", justifyContent: "center", alignItems: "center", fontSize: 28,
                 }}>
                   {step.icon}
                 </div>
-                <span style={{
-                  fontSize: 26, fontWeight: 500,
-                  color: "#e2e8f0", fontFamily: FONT,
-                }}>
+                <span style={{ fontSize: 26, fontWeight: 500, color: "#e2e8f0", fontFamily: FONT }}>
                   {step.label}
                 </span>
               </div>
               {i < steps.length - 1 && (
-                <div style={{
-                  width: 2, height: 20,
-                  backgroundColor: "#D4A53744",
-                  opacity: progress,
-                }} />
+                <div style={{ width: 2, height: 20, backgroundColor: "#D4A53744", opacity: p }} />
               )}
             </React.Fragment>
           );
@@ -626,38 +444,25 @@ const CRMFlowBRoll: React.FC = () => {
 };
 
 // --- CTA Button ---
-
 const CTAButton: React.FC<{ text: string }> = ({ text }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-
-  const progress = spring({
-    frame, fps,
-    config: { damping: 12, stiffness: 100 },
-  });
-
+  const progress = spring({ frame, fps, config: { damping: 12, stiffness: 100 } });
   const pulse = Math.sin(frame * 0.15) * 0.3 + 0.7;
 
   return (
     <div style={{
-      position: "absolute",
-      bottom: "12%",
+      position: "absolute", bottom: "12%",
       left: 0, right: 0,
-      display: "flex",
-      justifyContent: "center",
-      zIndex: 20,
-      opacity: progress,
+      display: "flex", justifyContent: "center",
+      zIndex: 20, opacity: progress,
       transform: `scale(${interpolate(progress, [0, 1], [0.5, 1])})`,
     }}>
       <div style={{
-        backgroundColor: "#D4A537",
-        color: "#000000",
-        fontSize: 32,
-        fontWeight: 800,
-        fontFamily: FONT,
-        padding: "18px 48px",
-        borderRadius: 50,
-        boxShadow: `0 0 ${20 + pulse * 20}px rgba(212, 165, 55, ${pulse * 0.6})`,
+        backgroundColor: "#D4A537", color: "#000",
+        fontSize: 32, fontWeight: 800, fontFamily: FONT,
+        padding: "18px 48px", borderRadius: 50,
+        boxShadow: `0 0 ${20 + pulse * 20}px rgba(212,165,55,${pulse * 0.6})`,
       }}>
         {text}
       </div>
