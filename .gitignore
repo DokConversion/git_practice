@@ -13,6 +13,9 @@ remotion-video/out/
 remotion-video/dist/
 remotion-video/.remotion/
 *_analysis.json
-*.mp4
-*.webm
-*.mov
+# Gerenderte Videos (Output)
+remotion-video/out/*.mp4
+remotion-video/out/*.webm
+remotion-video/out/*.mov
+# Referenzvideos erlaubt in assets/
+!remotion-video/src/assets/videos/*.mp4
