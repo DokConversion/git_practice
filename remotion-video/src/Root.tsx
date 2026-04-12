@@ -16,6 +16,10 @@ import {
   ValueReelComposition,
   valueReelSchema,
 } from "./compositions/ValueReelComposition";
+import {
+  MarcReelComposition,
+  marcReelSchema,
+} from "./compositions/MarcReelComposition";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -173,6 +177,19 @@ export const RemotionRoot: React.FC = () => {
               lineBreakAfter: [2],
             },
           ],
+        }}
+      />
+      {/* === MARC's SIGNAL MARKETING REEL === */}
+      <Composition
+        id="MarcReel"
+        component={MarcReelComposition}
+        schema={marcReelSchema}
+        durationInFrames={35 * 30}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          videoFile: "talking-head.mov",
         }}
       />
     </>
