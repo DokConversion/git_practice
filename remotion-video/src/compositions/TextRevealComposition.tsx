@@ -1,9 +1,9 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { z } from "zod";
-import { textRevealSchema } from "../schemas.js";
-import { TextReveal } from "../components/text/TextReveal.js";
-import { GradientBackground } from "../components/effects/GradientBackground.js";
+import { textRevealSchema } from "../schemas";
+import { TextReveal } from "../components/text/TextReveal";
+import { GradientBackground } from "../components/effects/GradientBackground";
 
 export const TextRevealComposition: React.FC<
   z.infer<typeof textRevealSchema>

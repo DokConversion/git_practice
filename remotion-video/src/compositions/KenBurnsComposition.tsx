@@ -1,8 +1,8 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { z } from "zod";
-import { kenBurnsSchema } from "../schemas.js";
-import { KenBurns } from "../components/effects/KenBurns.js";
+import { kenBurnsSchema } from "../schemas";
+import { KenBurns } from "../components/effects/KenBurns";
 
 export const KenBurnsComposition: React.FC<
   z.infer<typeof kenBurnsSchema>

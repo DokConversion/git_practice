@@ -6,8 +6,8 @@ import {
   random,
 } from "remotion";
 import { z } from "zod";
-import { audioVisualizerSchema } from "../schemas.js";
-import { GradientBackground } from "../components/effects/GradientBackground.js";
+import { audioVisualizerSchema } from "../schemas";
+import { GradientBackground } from "../components/effects/GradientBackground";
 
 /**
  * Audio-Visualizer Komposition.

@@ -6,16 +6,16 @@ import {
   kenBurnsSchema,
   splitScreenSchema,
   audioVisualizerSchema,
-} from "./schemas.js";
-import { MainComposition } from "./compositions/MainComposition.js";
-import { TextRevealComposition } from "./compositions/TextRevealComposition.js";
-import { KenBurnsComposition } from "./compositions/KenBurnsComposition.js";
-import { SplitScreenComposition } from "./compositions/SplitScreenComposition.js";
-import { AudioVisualizerComposition } from "./compositions/AudioVisualizerComposition.js";
+} from "./schemas";
+import { MainComposition } from "./compositions/MainComposition";
+import { TextRevealComposition } from "./compositions/TextRevealComposition";
+import { KenBurnsComposition } from "./compositions/KenBurnsComposition";
+import { SplitScreenComposition } from "./compositions/SplitScreenComposition";
+import { AudioVisualizerComposition } from "./compositions/AudioVisualizerComposition";
 import {
   ValueReelComposition,
   valueReelSchema,
-} from "./compositions/ValueReelComposition.js";
+} from "./compositions/ValueReelComposition";
 
 export const RemotionRoot: React.FC = () => {
   return (

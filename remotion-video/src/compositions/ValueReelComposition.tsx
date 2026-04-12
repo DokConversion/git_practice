@@ -12,8 +12,8 @@ import {
   OffthreadVideo,
 } from "remotion";
 import { z } from "zod";
-import { WordByWordReveal, TextSlide } from "../components/text/WordByWordReveal.js";
-import { LiveCaption } from "../components/overlays/LiveCaption.js";
+import { WordByWordReveal, TextSlide } from "../components/text/WordByWordReveal";
+import { LiveCaption } from "../components/overlays/LiveCaption";
 
 /**
  * Value Reel Composition im bastianbarami-Stil.

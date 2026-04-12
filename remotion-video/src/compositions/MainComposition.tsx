@@ -6,11 +6,11 @@ import {
   useVideoConfig,
 } from "remotion";
 import { z } from "zod";
-import { mainSchema } from "../schemas.js";
-import { TextReveal } from "../components/text/TextReveal.js";
-import { LowerThird } from "../components/overlays/LowerThird.js";
-import { ParticleBackground } from "../components/effects/ParticleBackground.js";
-import { GradientBackground } from "../components/effects/GradientBackground.js";
+import { mainSchema } from "../schemas";
+import { TextReveal } from "../components/text/TextReveal";
+import { LowerThird } from "../components/overlays/LowerThird";
+import { ParticleBackground } from "../components/effects/ParticleBackground";
+import { GradientBackground } from "../components/effects/GradientBackground";
 
 /**
  * Hauptkomposition: Demonstriert alle Faehigkeiten in einem zusammenhaengenden Video.

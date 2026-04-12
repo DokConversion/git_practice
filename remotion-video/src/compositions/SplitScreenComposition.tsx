@@ -7,7 +7,7 @@ import {
   interpolate,
 } from "remotion";
 import { z } from "zod";
-import { splitScreenSchema } from "../schemas.js";
+import { splitScreenSchema } from "../schemas";
 
 export const SplitScreenComposition: React.FC<
   z.infer<typeof splitScreenSchema>
