@@ -34,7 +34,7 @@ interface WordRevealProps {
 export const WordByWordReveal: React.FC<WordRevealProps> = ({
   words,
   fontSize = 64,
-  fontFamily = "'Georgia', 'Times New Roman', serif",
+  fontFamily = "'Montserrat', 'Inter', 'Helvetica Neue', sans-serif",
   color = "#ffffff",
   highlightColor = "#D4A537",
   lineBreakAfter = [],
@@ -126,7 +126,7 @@ interface TextSlideProps {
 export const TextSlide: React.FC<TextSlideProps> = ({
   text,
   fontSize = 56,
-  fontFamily = "'Georgia', 'Times New Roman', serif",
+  fontFamily = "'Montserrat', 'Inter', 'Helvetica Neue', sans-serif",
   color = "#ffffff",
   highlightWords = [],
   highlightColor = "#D4A537",

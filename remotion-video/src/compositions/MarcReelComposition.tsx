@@ -2,6 +2,7 @@ import React from "react";
 import {
   AbsoluteFill,
   Sequence,
+  Audio,
   OffthreadVideo,
   staticFile,
   useCurrentFrame,
@@ -15,12 +16,14 @@ import { LiveCaption } from "../components/overlays/LiveCaption";
 
 /**
  * Marc's Signal Marketing Reel.
- * Basierend auf dem bastianbarami-Stil:
- * Text-on-Black Hooks + Talking Head mit Live Captions.
  *
  * Format: 1080x1920 (9:16 Instagram Reel)
- * Video: talking-head.mov (42s, eine durchgehende Aufnahme)
+ * Audio laeuft durchgehend ueber das ganze Reel.
+ * Font: Modern Sans-Serif (Montserrat/Inter style, wie bastianbarami).
  */
+
+// Font-Konstante: gleicher Stil wie bastianbarami
+const FONT = "'Montserrat', 'Inter', 'Helvetica Neue', sans-serif";
 
 export const marcReelSchema = z.object({
   videoFile: z.string(),
@@ -34,11 +37,13 @@ export const MarcReelComposition: React.FC<
   return (
     <AbsoluteFill style={{ backgroundColor: "#000000" }}>
 
-      {/* ============================================ */}
-      {/* SZENE 1: TEXT HOOK (0-3s)                    */}
-      {/* "Der Hauptgrund warum deine Funnels          */}
-      {/*  nicht performen"                            */}
-      {/* ============================================ */}
+      {/* === DURCHGEHENDE AUDIO-SPUR === */}
+      <Audio
+        src={staticFile(videoFile)}
+        volume={1}
+      />
+
+      {/* SZENE 1: TEXT HOOK (0-3s) */}
       <Sequence from={0} durationInFrames={3 * fps}>
         <WordByWordReveal
           words={[
@@ -52,14 +57,11 @@ export const MarcReelComposition: React.FC<
           ]}
           lineBreakAfter={[2, 3]}
           fontSize={62}
+          fontFamily={FONT}
         />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 2: TALKING HEAD (3-7s)                 */}
-      {/* "...liegt daran dass du nicht verstanden      */}
-      {/*  hast dass Signal Marketing in 2026 zaehlt"  */}
-      {/* ============================================ */}
+      {/* SZENE 2: TALKING HEAD (3-7s) */}
       <Sequence from={3 * fps} durationInFrames={4 * fps}>
         <TalkingHead videoFile={videoFile} startFromSec={0} />
         <LiveCaption
@@ -73,14 +75,12 @@ export const MarcReelComposition: React.FC<
             { text: "zaehlt.", startFrame: 100, endFrame: 120 },
           ]}
           fontSize={44}
+          fontFamily={FONT}
           positionY={62}
         />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 3: TEXT STATEMENT (7-9.5s)             */}
-      {/* "Signal Marketing > Events"                  */}
-      {/* ============================================ */}
+      {/* SZENE 3: TEXT STATEMENT (7-9.5s) */}
       <Sequence from={7 * fps} durationInFrames={Math.round(2.5 * fps)}>
         <WordByWordReveal
           words={[
@@ -90,14 +90,11 @@ export const MarcReelComposition: React.FC<
             { text: "Events", startFrame: 30 },
           ]}
           fontSize={72}
+          fontFamily={FONT}
         />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 4: TALKING HEAD (9.5-16.5s)            */}
-      {/* "Die meisten versuchen ihre Kampagnen auf     */}
-      {/*  Events zu optimieren statt auf Signale"      */}
-      {/* ============================================ */}
+      {/* SZENE 4: TALKING HEAD (9.5-16.5s) */}
       <Sequence from={Math.round(9.5 * fps)} durationInFrames={7 * fps}>
         <TalkingHead videoFile={videoFile} startFromSec={7} />
         <LiveCaption
@@ -114,14 +111,12 @@ export const MarcReelComposition: React.FC<
             { text: "verstehst", startFrame: 200, endFrame: 210 },
           ]}
           fontSize={44}
+          fontFamily={FONT}
           positionY={62}
         />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 5: TEXT STATEMENT (16.5-19s)            */}
-      {/* "Deutlich bessere Ergebnisse"                 */}
-      {/* ============================================ */}
+      {/* SZENE 5: TEXT STATEMENT (16.5-19s) */}
       <Sequence from={Math.round(16.5 * fps)} durationInFrames={Math.round(2.5 * fps)}>
         <WordByWordReveal
           words={[
@@ -134,13 +129,11 @@ export const MarcReelComposition: React.FC<
           ]}
           lineBreakAfter={[2]}
           fontSize={60}
+          fontFamily={FONT}
         />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 6: TALKING HEAD (19-26s)               */}
-      {/* "Lasst mich kurz erklaeren..."               */}
-      {/* ============================================ */}
+      {/* SZENE 6: TALKING HEAD (19-26s) */}
       <Sequence from={19 * fps} durationInFrames={7 * fps}>
         <TalkingHead videoFile={videoFile} startFromSec={24} />
         <LiveCaption
@@ -155,27 +148,22 @@ export const MarcReelComposition: React.FC<
             { text: "CRM", startFrame: 162, endFrame: 185, highlight: true },
           ]}
           fontSize={44}
+          fontFamily={FONT}
           positionY={62}
         />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 7: TEXT STATEMENT (26-28.5s)            */}
-      {/* "Signale kommen aus dem CRM"                 */}
-      {/* ============================================ */}
+      {/* SZENE 7: TEXT STATEMENT (26-28.5s) */}
       <Sequence from={26 * fps} durationInFrames={Math.round(2.5 * fps)}>
         <TextSlide
           text="Der Algorithmus kann mit Signalen deutlich mehr arbeiten"
           highlightWords={["Algorithmus", "Signalen"]}
           fontSize={52}
+          fontFamily={FONT}
         />
       </Sequence>
 
-      {/* ============================================ */}
-      {/* SZENE 8: TALKING HEAD + CTA (28.5-35s)       */}
-      {/* "Wie das Ganze geht zeige ich dir im         */}
-      {/*  Live-Webinar - meld dich jetzt an"          */}
-      {/* ============================================ */}
+      {/* SZENE 8: TALKING HEAD + CTA (28.5-35s) */}
       <Sequence from={Math.round(28.5 * fps)} durationInFrames={Math.round(6.5 * fps)}>
         <TalkingHead videoFile={videoFile} startFromSec={36.8} />
         <LiveCaption
@@ -188,10 +176,9 @@ export const MarcReelComposition: React.FC<
             { text: "jetzt an!", startFrame: 130, endFrame: 170, highlight: true },
           ]}
           fontSize={44}
+          fontFamily={FONT}
           positionY={62}
         />
-
-        {/* CTA Button Animation */}
         <Sequence from={4 * 30}>
           <CTAButton text="Jetzt anmelden" />
         </Sequence>
@@ -201,7 +188,7 @@ export const MarcReelComposition: React.FC<
   );
 };
 
-// --- Talking Head mit Video ---
+// --- Talking Head (Video OHNE Audio, da Audio separat laeuft) ---
 
 const TalkingHead: React.FC<{
   videoFile: string;
@@ -212,13 +199,13 @@ const TalkingHead: React.FC<{
       <OffthreadVideo
         src={staticFile(videoFile)}
         startFrom={Math.round(startFromSec * 30)}
+        muted
         style={{
           width: "100%",
           height: "100%",
           objectFit: "cover",
         }}
       />
-      {/* Cinematische Vignette */}
       <AbsoluteFill
         style={{
           background:
@@ -226,7 +213,6 @@ const TalkingHead: React.FC<{
           pointerEvents: "none",
         }}
       />
-      {/* Unterer Gradient fuer bessere Text-Lesbarkeit */}
       <AbsoluteFill
         style={{
           background:
@@ -252,8 +238,6 @@ const CTAButton: React.FC<{ text: string }> = ({ text }) => {
 
   const scale = interpolate(progress, [0, 1], [0.5, 1]);
   const opacity = progress;
-
-  // Pulsierender Glow-Effekt
   const pulse = Math.sin(frame * 0.15) * 0.3 + 0.7;
 
   return (
@@ -276,7 +260,7 @@ const CTAButton: React.FC<{ text: string }> = ({ text }) => {
           color: "#000000",
           fontSize: 32,
           fontWeight: 800,
-          fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
+          fontFamily: FONT,
           padding: "18px 48px",
           borderRadius: 50,
           boxShadow: `0 0 ${20 + pulse * 20}px rgba(212, 165, 55, ${pulse * 0.6})`,
