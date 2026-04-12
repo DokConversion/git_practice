@@ -12,7 +12,9 @@
     "render:ken-burns": "remotion render src/index.ts KenBurns out/ken-burns.mp4",
     "render:split": "remotion render src/index.ts SplitScreen out/split-screen.mp4",
     "render:audio-viz": "remotion render src/index.ts AudioVisualizer out/audio-viz.mp4",
+    "render:reel": "remotion render src/index.ts ValueReel out/value-reel.mp4",
     "still": "remotion still src/index.ts MainVideo out/thumbnail.png",
+    "still:reel": "remotion still src/index.ts ValueReel out/reel-thumbnail.png",
     "analyze": "npx ts-node src/analyzer/cli.ts",
     "build": "tsc --noEmit",
     "upgrade": "remotion upgrade"
